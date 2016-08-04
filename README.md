@@ -1,8 +1,8 @@
-# GitWand
+# Git Wand
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/git_wand`. To experiment with that code, run `bin/console` for an interactive prompt.
+A Ruby client to the GitHub API.
 
-TODO: Delete this and the text above, and describe your gem
+Made with <3 by @olistik
 
 ## Installation
 
@@ -22,7 +22,46 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Instantiate a client:
+
+```ruby
+require "git_wand"
+
+client = GitHub::API::Client.new(
+  username: "GITHUB_USERNAME_HERE",
+  token: "GITHUB_TOKEN_HERE"
+)
+```
+
+Interact with resources:
+
+```ruby
+result = client.current_user_info
+if result.success?
+  puts "[success] Current user info: #{result.body["login"]} #{result.body["html_url"]}"
+else
+  puts "[error] #{result.body["message"]}"
+end
+```
+
+```ruby
+repository_name = "this-is-a-test"
+result = client.create_repository(name: repository_name)
+if result.success?
+  puts "[success] Repository #{repository_name} created: #{result.body["html_url"]}"
+else
+  puts "[error] #{result.body["message"]}"
+end
+```
+
+```ruby
+result = client.delete_repository(name: repository_name)
+if result.success?
+  puts "[success] Repository #{repository_name} deleted"
+else
+  puts "[error] #{result.body["message"]}"
+end
+```
 
 ## Development
 
@@ -32,10 +71,13 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/git_wand. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/olistik/git_wand. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+Made with <3 by [olistik](https://olisti.co).
 
+GNU Affero General Public License (AGPL) version 3
+
+- [gnu.org](https://www.gnu.org/licenses/agpl-3.0.txt)
+- [repository copy](agpl-3.0.txt)
