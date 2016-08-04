@@ -27,7 +27,7 @@ Instantiate a client:
 ```ruby
 require "git_wand"
 
-client = GitHub::API::Client.new(
+client = GitWand::GitHub::API::Client.new(
   username: "GITHUB_USERNAME_HERE",
   token: "GITHUB_TOKEN_HERE"
 )
