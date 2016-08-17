@@ -2,8 +2,6 @@
 
 A Ruby client to the GitHub API.
 
-Made with <3 by @olistik
-
 ## Installation
 
 Add this line to your application's Gemfile:
