@@ -2,6 +2,8 @@
 
 A Ruby client to the GitHub API.
 
+There's also a command line wrapper for this client: [GitWand::CLI](https://github.com/olistik/git-wand-cli).
+
 ## Installation
 
 Add this line to your application's Gemfile:
