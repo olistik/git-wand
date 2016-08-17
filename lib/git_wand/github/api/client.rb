@@ -23,8 +23,12 @@ module GitWand
           result
         end
 
-        def create_repository(name:)
-          response = post(resource: "user/repos", parameters: {name: name})
+        def create_repository(name:, private: false)
+          parameters = {
+            name: name,
+            private: private
+          }
+          response = post(resource: "user/repos", parameters: parameters)
           result = Result.new
           result.success = response[:status][:code] == "201"
           result.body = response[:body]
