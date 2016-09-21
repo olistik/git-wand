@@ -14,7 +14,7 @@ module GitWand
 
         ALLOWED_HTTP_METHODS = %i[get post head put delete options trace patch].to_set
 
-        def http_request(resource:, method: :get, client:, parameters: {})
+        def http_request(resource:, method: :get, client:, parameters: {}, query_parameters: nil)
           if ALLOWED_HTTP_METHODS.include?(method)
             net_http_class = Net::HTTP.const_get(method.to_s.capitalize.to_sym)
           else
@@ -23,6 +23,9 @@ module GitWand
           end
 
           uri = build_resource_uri(resource)
+          if query_parameters
+            uri.query = URI.encode_www_form(query_parameters)
+          end
           response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
             request = net_http_class.new(uri)
             request["Accept"] = "application/vnd.github.v3+json"

@@ -1,5 +1,10 @@
 require_relative "request"
 require_relative "result"
+require_relative "commands/repository"
+require_relative "commands/issue"
+require_relative "commands/pull_request"
+require_relative "commands/branch"
+require_relative "commands/file"
 
 module GitWand
   module GitHub
@@ -8,6 +13,12 @@ module GitWand
       extend self
 
       class Client
+        include Commands::Repository
+        include Commands::Issue
+        include Commands::PullRequest
+        include Commands::Branch
+        include Commands::File
+
         attr_reader :username, :token
 
         def initialize(username:, token:)
@@ -23,34 +34,18 @@ module GitWand
           result
         end
 
-        def create_repository(name:, private: false)
-          parameters = {
-            name: name,
-            private: private
-          }
-          response = post(resource: "user/repos", parameters: parameters)
-          result = Result.new
-          result.success = response[:status][:code] == "201"
-          result.body = response[:body]
-          result
-        end
-
-        def delete_repository(name:)
-          response = delete(resource: "repos/#{username}/#{name}")
-          result = Result.new
-          result.success = response[:status][:code] == "204"
-          result.body = response[:body]
-          result
-        end
-
         private
 
-          def get(resource:)
-            Request::http_request(method: :get, resource: resource, client: self)
+          def get(resource:, query_parameters: nil)
+            Request::http_request(method: :get, resource: resource, client: self, query_parameters: query_parameters)
           end
 
           def post(resource:, parameters: {})
             Request::http_request(method: :post, resource: resource, client: self, parameters: parameters)
+          end
+
+          def put(resource:, parameters: {})
+            Request::http_request(method: :put, resource: resource, client: self, parameters: parameters)
           end
 
           def delete(resource:)

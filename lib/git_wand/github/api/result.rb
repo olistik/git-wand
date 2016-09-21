@@ -4,7 +4,7 @@ module GitWand
 
       class Result
 
-        attr_accessor :success, :body
+        attr_accessor :success, :body, :resource
 
         def success?
           @success == true
